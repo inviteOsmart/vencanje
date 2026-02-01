@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>inviteOsmart – Smart digitalne pozivnice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* SECTION TITLES */
+        h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* NAVIGATION */
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        /* BUTTONS */
+        .btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* ================= GLOBAL ================= */
+        body {
+            background: #fafafa;
+            scroll-behavior: smooth;
+            color: #333;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            letter-spacing: -0.1px;
+        }
+
+        section {
+            padding: 90px 0;
+            scroll-margin-top: 90px;
+        }
+
+        .navbar {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+        }
+
+        .nav-link.active {
+            color: #c77d9a !important;
+            font-weight: 600;
+        }
+
+        /* ================= HERO ================= */
+        .hero {
+            min-height: 75vh;
+            background: linear-gradient(135deg, #f6d1dc, #efe6fb);
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: auto;
+        }
+
+        .btn-primary-hero {
+            background: #c77d9a;
+            border: none;
+            color: #c77d9a;
+        }
+
+        .btn-primary-hero:hover {
+            background: #c77d9a;
+            color: #fff;
+        }
+
+        .btn-secondary-hero {
+            border: 2px solid #9d7bd8;
+            color: #6f42c1;
+        }
+
+        .btn-secondary-hero:hover {
+            background: #9d7bd8;
+            color: #fff;
+        }
+
+        /* ================= PONUDA ================= */
+        #ponuda {
+            background: #fff;
+        }
+
+        .offer-card {
+            background: #fff;
+            border-radius: 22px;
+            padding: 45px 35px;
+            height: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, .08);
+            position: relative;
+        }
+
+        .offer-card.premium {
+            border: 3px solid #c77d9a;
+            transform: scale(1.05);
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #c77d9a;
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .offer-price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin: 20px 0;
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+        }
+
+        .offer-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .offer-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .offer-list span {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #c77d9a;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+
+        .standard .offer-list span {
+            background: #6f42c1;
+        }
+
+        /* ================= EVENT SECTIONS ================= */
+        #weddings {
+            background: #fffafc;
+        }
+
+        #birthdays {
+            background: #f3f6ff;
+        }
+
+        /* ================= FLIP CARDS ================= */
+        .flip-card {
+            height: 320px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform .7s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            backface-visibility: hidden;
+            background: #fff;
+            box-shadow: 0 18px 35px rgba(0, 0, 0, .1);
+        }
+
+        .flip-card-front img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .flip-card-front h5 {
+            padding: 14px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #c77d9a, #9d7bd8);
+            color: #fff;
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .standard-card .flip-card-back {
+            background: linear-gradient(135deg, #6f42c1, #4dabf7);
+        }
+
+        /* kartica finalno */
+        .invitation-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-inner {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 16px 35px rgba(0,0,0,.12);
+            transition: transform .35s ease, box-shadow .35s ease;
+            height: 100%;
+        }
+
+        .card-inner img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-inner h5 {
+            padding: 14px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .price-tag {
+            display: block;
+            text-align: center;
+            padding-bottom: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #c77d9a;
+        }
+
+        .invitation-card:hover .card-inner {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(0,0,0,.18);
+        }
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        footer {
+            background: #222;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.4px;
+        }
+        /* ================= COLOR SYSTEM ================= */
+
+        :root {
+            --rose-main: #c77d9a;
+            --rose-light: #f6d1dc;
+            --violet-main: #6f42c1;
+            --violet-light: #e8ddfb;
+            --text-dark: #3a3a3a;
+            --text-muted: #6f6f6f;
+        }
+
+        /* GLOBAL TEXT COLORS */
+        body {
+            color: var(--text-dark);
+        }
+
+        p,
+        .lead {
+            color: var(--text-muted);
+        }
+
+        /* SECTION TITLES */
+        h2 {
+            background: linear-gradient(135deg, var(--rose-main), var(--violet-main));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #weddings h2 {
+            background: linear-gradient(135deg, #c77d9a, #f1a7c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #birthdays h2 {
+            background: linear-gradient(135deg, #6f42c1, #9d7bd8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* HERO TEXT */
+        .hero h1 {
+            background: linear-gradient(135deg, #8b3d63, #6f42c1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #5c4a56;
+        }
+
+        /* NAV LINKS */
+        .nav-link {
+            color: #5c5c5c;
+        }
+
+        .nav-link:hover {
+            color: var(--rose-main);
+        }
+
+        .navbar-brand-logo-span{
+            color: #ef1f53;
+        }
+        /* OFFER CARDS */
+        .offer-card.standard {
+            background: linear-gradient(180deg, #ffffff, var(--violet-light));
+        }
+
+        .offer-card.premium {
+            background: linear-gradient(180deg, #ffffff, var(--rose-light));
+        }
+
+        /* OFFER TITLES */
+        .offer-card h3 {
+            color: var(--rose-main);
+        }
+
+        .offer-card.standard h3 {
+            color: var(--violet-main);
+        }
+
+        /* OFFER LIST ICONS */
+        .offer-card.standard .offer-list span {
+            background: var(--violet-main);
+        }
+
+        .offer-card.premium .offer-list span {
+            background: var(--rose-main);
+        }
+
+        /* BUTTONS – PREMIUM */
+        .btn-primary-hero {
+            /* background: linear-gradient(135deg, #c77d9a, #b06786); */
+            background: linear-gradient(87deg, #ffe4fa, var(--rose-light));
+            box-shadow: 0 12px 25px rgba(199,125,154,0.35);
+        }
+
+        .btn-primary-hero:hover {
+            background: linear-gradient(135deg, #e5a3bf, #b5748e);;
+        }
+
+        /* BUTTONS – STANDARD */
+        .btn-secondary-hero {
+            background: linear-gradient(135deg, #e8ddfb, #d2c4f0);
+            border: none;
+            color: #6f42c1;
+            box-shadow: 0 10px 22px rgba(111,66,193,0.25);
+        }
+
+        .btn-secondary-hero:hover {
+            background: linear-gradient(135deg, #6f42c1, #9d7bd8);
+            color: #fff;
+        }
+
+        /* FLIP CARD TITLES */
+        .flip-card-front h5 {
+            color: #4a4a4a;
+        }
+
+        /* PRICE TEXT */
+        .price {
+            background: linear-gradient(135deg, #ffffff, #f8e7ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* FOOTER TEXT */
+        footer {
+            /* background: linear-gradient(135deg, #2b2b2b, #1f1f1f); */
+            background: #f3f6ff;
+            color: #d8d8d8;
+        }
+
+        footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        footer img {
+            height: 400px;              /* manji nego u navbaru */
+            width: auto;
+            opacity: 0.75;             /* diskretno */
+            transition: opacity .25s ease, transform .25s ease;
+        }
+
+        #birthdays{
+            padding: 90px 0 45px;
+        }
+
+        footer img:hover {
+            opacity: 1;
+            transform: scale(1.03);
+        }
+
+        /* tekst u footeru */
+        footer {
+            font-size: 0.9rem;
+            color: #cfcfcf;
+        }
+
+        @media (width < 768px) {
+            .most-used {
+                margin-top: 50px !important;
+            }
+        }
+
+        @media (width < 600px) {
+            footer img{
+                width: 100%;
+                height: auto;
+            }
+
+        }
+        @media (width < 449px) {
+            .btn-action-main {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn-primary-hero{
+                margin-right: 0 !important;
+            }
+        }
+    </style>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#mainNavbar" data-bs-offset="90">
+
+<!-- NAV -->
+<nav id="mainNavbar" class="navbar navbar-expand-lg bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#hero">inviteO<span class="navbar-brand-logo-span">smart</span></a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="nav" class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#hero">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#ponuda">Ponuda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#weddings">Venčanja</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#birthdays">Rođendani</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+    <div class="container">
+        <h1 data-aos="fade-up">
+            Digitalne smart pozivnice za posebne trenutke
+        </h1>
+
+        <p class="lead mt-3" data-aos="fade-up" data-aos-delay="150">
+            Elegantne online pozivnice za venčanja i rođendane – moderno, brzo i bez štampe.
+        </p>
+
+        <div class="btn-action-main mt-4" data-aos="fade-up" data-aos-delay="300">
+            <a href="#ponuda" class="btn btn-primary-hero btn-lg me-3">
+                Pogledaj ponudu
+            </a>
+            <a href="#weddings" class="btn btn-secondary-hero btn-lg">
+                Primeri pozivnica
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- PONUDA -->
+<section id="ponuda">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-3">Paketi</h2>
+        <p class="text-center text-muted mb-5">
+            Premium je najčešći izbor naših klijenata
+        </p>
+
+        <div class="row g-4">
+            <div class="col-md-6" data-aos="fade-up">
+                <div class="offer-card standard text-center">
+                    <h3>Standard</h3>
+                    <div class="offer-price">30 €</div>
+
+                    <ul class="offer-list text-start">
+                        <li><span>✓</span> Interaktivni web sajt</li>
+                        <li><span>✓</span> Interaktivna mapa</li>
+                        <li><span>✓</span> Tajmer</li>
+                        <li><span>✓</span> Vreme i lokacija događaja</li>
+
+                        <li class="text-muted"><span>✕</span> Potvrda dolaska</li>
+                        <li class="text-muted"><span>✕</span> Galerija nakon događaja</li>
+                        <li class="text-muted"><span>✕</span> Muzički plejer</li>
+                        <li class="text-muted"><span>✕</span> Kalendar podsetnik</li>
+                    </ul>
+
+                    <a href="#birthdays" class="btn btn-secondary-hero mt-4">
+                        Izaberi Standard
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-6 most-used" data-aos="fade-up" data-aos-delay="150">
+                <div class="offer-card premium text-center">
+                    <div class="offer-badge">Najčešći izbor</div>
+
+                    <h3>Premium</h3>
+                    <div class="offer-price">50 €</div>
+
+                    <ul class="offer-list text-start">
+                        <li><span>✓</span> Interaktivni web sajt</li>
+                        <li><span>✓</span> Interaktivna mapa</li>
+                        <li><span>✓</span> Tajmer</li>
+                        <li><span>✓</span> Vreme i lokacija događaja</li>
+                        <li><span>✓</span> Potvrda dolaska (RSVP)</li>
+                        <li><span>✓</span> Galerija nakon događaja</li>
+                        <li><span>✓</span> Muzički plejer</li>
+                        <li><span>✓</span> Kalendar podsetnik</li>
+                    </ul>
+
+
+                    <a href="#weddings" class="btn btn-primary-hero mt-4">
+                        Izaberi Premium
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EVENT SECTIONS (kartice su spremne za dalje punjenje slikama) -->
+<!-- VENČANJA -->
+<section id="weddings">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Venčanja – Premium</h2>
+        <div class="row g-4">
+            <!-- 7 PREMIUM -->
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?1" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?2" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?3" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?4" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?5" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?6" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?7" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <h2 class="text-center fw-bold mt-5 mb-5">Venčanja – Standard</h2>
+        <div class="row g-4">
+            <!-- 7 STANDARD -->
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?8" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?9" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?10" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?11" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?12" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?13" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?14" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>  
+        </div>
+    </div>
+</section>
+
+<!-- ROĐENDANI -->
+<section id="birthdays">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Rođendani – Premium</h2>
+        <div class="row g-4">
+            <!-- 7 PREMIUM -->
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?2" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?3" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?4" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?5" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?6" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?7" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?8" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <!-- ... -->
+        </div>
+
+        <h2 class="text-center fw-bold mt-5 mb-5">Rođendani – Standard</h2>
+        <div class="row g-4">
+            <!-- 7 STANDARD -->
+             <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?9" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?10" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?11" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?12" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?13" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?14" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="zoom-in">
+                <a href="/pozivnice/wedding-premium-1" class="invitation-card">
+                    <div class="card-inner">
+                        <img src="https://picsum.photos/500/300?15" alt="Wedding Premium 1">
+                        <h5>Wedding Premium 1</h5>
+                        <span class="price-tag">50 €</span>
+                    </div>
+                </a>
+            </div>
+            <!-- ... -->
+        </div>
+    </div>
+</section>
+
+<footer class="py-4 text-center">
+    <div>
+        <img src="inviteosmartpnglogo.png" alt="inviteOsmart logo">
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        once: true,
+        duration: 800,
+        easing: 'ease-in-out'
+    });
+</script>
+
+</body>
+</html>
